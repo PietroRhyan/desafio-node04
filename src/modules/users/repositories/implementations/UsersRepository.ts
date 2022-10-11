@@ -46,16 +46,14 @@ class UsersRepository implements IUsersRepository {
   }
 
   turnAdmin(receivedUser: User): User {
-    const user = this.users.find(user => user.id === receivedUser.id)
-
     const updatedUser: User = {
-      ...user,
+      ...receivedUser,
       admin: true,
       updated_at: new Date(),
     }
     
     this.users.map((findUser: User) => {
-      if(findUser.id === user.id) {
+      if(findUser.id === receivedUser.id) {
         findUser = updatedUser
       }
     })
