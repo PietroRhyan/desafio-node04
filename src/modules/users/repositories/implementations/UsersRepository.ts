@@ -34,23 +34,37 @@ class UsersRepository implements IUsersRepository {
   }
 
   findById(id: string): User | undefined {
-    const userExists = this.users.find(user => user.id === id)
+    const user = this.users.find(user => user.id === id)
 
-    if(!userExists) {
-      
-    }
+    return user
   }
 
   findByEmail(email: string): User | undefined {
-    // Complete aqui
+    const user = this.users.find(user => user.email === email)
+
+    return user
   }
 
   turnAdmin(receivedUser: User): User {
-    // Complete aqui
+    const user = this.users.find(user => user.id === receivedUser.id)
+
+    const updatedUser: User = {
+      ...user,
+      admin: true,
+      updated_at: new Date(),
+    }
+    
+    this.users.map((findUser: User) => {
+      if(findUser.id === user.id) {
+        findUser = updatedUser
+      }
+    })
+
+    return updatedUser
   }
 
   list(): User[] {
-    // Complete aqui
+    return this.users
   }
 }
 
