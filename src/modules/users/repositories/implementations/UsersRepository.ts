@@ -49,14 +49,22 @@ class UsersRepository implements IUsersRepository {
     const updatedUser: User = {
       ...receivedUser,
       admin: true,
-      updated_at: new Date(),
+      updated_at: new Date()
     }
-    
-    this.users.map((findUser: User) => {
-      if(findUser.id === receivedUser.id) {
-        findUser = updatedUser
-      }
-    })
+
+    // Updating the user
+    const users = this.users
+
+    function getIndex(findIndex: User) {
+      users.map((user: User) => {
+        if(user.id === findIndex.id){
+          return true
+        }
+      })
+    }
+
+    const index = this.users.findIndex(() => getIndex(updatedUser))
+    this.users[index] = updatedUser
 
     return updatedUser
   }
