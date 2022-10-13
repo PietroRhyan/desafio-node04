@@ -19,58 +19,39 @@ class UsersRepository implements IUsersRepository {
   }
 
   create({ name, email }: ICreateUserDTO): User {
-    const user = new User()
+    const user = new User();
 
     Object.assign(user, {
       name,
       email,
       created_at: new Date(),
       updated_at: new Date(),
-    })
+    });
 
-    this.users.push(user)
+    this.users.push(user);
 
-    return user
+    return user;
   }
 
   findById(id: string): User | undefined {
-    const user = this.users.find(user => user.id === id)
-
-    return user
+    const user = this.users.find((user) => user.id === id);
+    return user;
   }
 
   findByEmail(email: string): User | undefined {
-    const user = this.users.find(user => user.email === email)
-
-    return user
+    const user = this.users.find((user) => user.email === email);
+    return user;
   }
 
-  turnAdmin(receivedUser: User): User {
-    const updatedUser: User = {
-      ...receivedUser,
-      admin: true,
-      updated_at: new Date()
-    }
-
-    // Updating the user
-    const users = this.users
-
-    function getIndex(findIndex: User) {
-      users.map((user: User) => {
-        if(user.id === findIndex.id){
-          return true
-        }
-      })
-    }
-
-    const index = this.users.findIndex(() => getIndex(updatedUser))
-    this.users[index] = updatedUser
-
-    return updatedUser
+  turnAdmin(user: User): User {
+    const index = this.users.findIndex((u) => u.id === user.id);
+    this.users[index].admin = true;
+    this.users[index].updated_at = new Date();
+    return this.users[index];
   }
 
   list(): User[] {
-    return this.users
+    return this.users;
   }
 }
 
