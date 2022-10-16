@@ -1,0 +1,204 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Usuários",
+    "description": "Uma api de usuários com diferentes funcionalidades e rotas",
+    "version": "1.0.0",
+    "contact": "pietrorhyan.contact@gmail.com"
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Criação de usuário",
+        "description": "Cria um usuário passando o nome e email pelo body da requisição",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "johndoeemail.@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists or Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Listagem de usuários",
+        "description": "Listagem de todos os usuários, passando o userId pelo header para verificar se o mesmo possui permissão",
+        "parameters": {
+          "name": "user_id",
+          "in": "header",
+          "required": true,
+          "description": "O user_id é passado pelo Header para fazer a verificação se o usuário é ADMIN",
+          "schema": {
+            "type": "string",
+            "format": "uuidv4"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "Date"
+                      }
+                      },
+                      "updated_at": {
+                        "type": "Date"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user don't exists or The user don't have the permission to list all users"
+          }
+      }
+    },
+    "/:users_id": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Mostrar informações do perfil do usuário",
+        "description": "Mostrar as informações do perfil do usuário, passando seu userId como parâmetro da rota",
+        "parameters": {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "description": "O user_id é passado pelo pârametro da rota",
+          "schema": {
+            "type": "string",
+            "format": "uuidv4"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user don't exists"
+          }
+        }
+      }
+    },
+    "/users_id/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Tornando um usuário um AMDIN",
+        "description": "Tornando um usuário um ADMIN a partir do userId",
+        "parameters": {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "description": "O user_id é passado pelo pârametro da rota",
+          "schema": {
+            "type": "string",
+            "format": "uuidv4"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user don't exists"
+          }
+        }
+      }
+    }
+  }
+}
